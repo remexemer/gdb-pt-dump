@@ -6,6 +6,7 @@ import tempfile
 import string
 import random
 import traceback
+import binascii
 
 from pt.pt_common import *
 
@@ -199,12 +200,14 @@ class PageTableDump():
         elif args.read_phys:
             phys_addr = int(args.read_phys[0], 0)
             phys_len = int(args.read_phys[1], 0)
-            sys.stdout.buffer.write(self.machine_backend.read_physical_memory(phys_addr, phys_len))
+            # sys.stdout.buffer.write(self.machine_backend.read_physical_memory(phys_addr, phys_len))
+            print(binascii.hexlify(self.machine_backend.read_physical_memory(phys_addr, phys_len)))
         elif args.read_virt:
             virt_addr = int(args.read_virt[0], 0)
             virt_len = int(args.read_virt[1], 0)
             data = self.read_virt_memory(page_ranges, virt_addr, virt_len)
-            sys.stdout.buffer.write(data)
+            # sys.stdout.buffer.write(data)
+            print(binascii.hexlify(data))
         else:
             self.arch_backend.print_table(page_ranges_filtered, phys_verbose=args.phys_verbose)
 
